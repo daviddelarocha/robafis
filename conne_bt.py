@@ -16,7 +16,7 @@ class BluetoothConnector(Peripheral):
 		"""
 		...
 		"""
-		super().__init__(MAC_ADDR, "public")
+		super().__init__()
 
 		self.write_service = self.getCharacteristics()[0]
 	
@@ -24,7 +24,9 @@ class BluetoothConnector(Peripheral):
 		"""
 		...
 		"""
+		self.connect(MAC_ADDR, "public")
 		self.write_service.write(str(msg).encode('utf-8'))
+		self.disconnect()
 
 	def read_confirmation(self) -> None:
 		"""
