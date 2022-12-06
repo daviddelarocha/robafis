@@ -1,4 +1,6 @@
 # This project requires PyBluez
+from time import sleep
+
 from tkinter import Frame, Button, Label, Listbox, Variable, SINGLE
 
 NODES_MAP:dict = {
@@ -113,9 +115,11 @@ class Auto(Frame):
             leaveplane_node = self.__listbox_leaveplane.get(i)
             break
         self.controller.send_signal(2)
+        sleep(1000)
         self.controller.send_signal(
             NODES_MAP.get(takeplane_node)
         )
+        sleep(1000)
         self.controller.send_signal(
             NODES_MAP.get(leaveplane_node)
         )
