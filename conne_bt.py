@@ -16,7 +16,7 @@ class BluetoothConnector(Peripheral):
 		"""
 		...
 		"""
-		super(MAC_ADDR, "public").__init__()
+		super().__init__(MAC_ADDR, "public")
 
 		self.write_service = self.getCharacteristics()[0]
 	

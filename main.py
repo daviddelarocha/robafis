@@ -79,9 +79,9 @@ class SampleApp(Tk):
         """
         ...
         """
-        self.btconnector = BluetoothConnector()
-        self.btconnector.write(msg)
-        self.btconnector.disconnect()
+        btconnector = BluetoothConnector()
+        btconnector.write(msg)
+        btconnector.disconnect()
         print("send message: ", msg)
 
 # Begin the GUI processing ---------------------------------------------------
