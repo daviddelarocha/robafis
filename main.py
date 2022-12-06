@@ -11,8 +11,6 @@ from manual import Manual
 from auto import Auto
 
 
-BTCONN = BluetoothConnector()
-
 # Windows ---------------------------------------------------
 
 #Create the GUI
@@ -58,7 +56,6 @@ class SampleApp(Tk):
     def __init__(self, *args, **kwargs):
         Tk.__init__(self, *args, **kwargs)
 
-        self.btconnector = BTCONN
         # the container is where we'll pack the current page
         self.container = Frame(self)
         self.container.pack(side="top", fill="both", expand=True)
@@ -82,7 +79,9 @@ class SampleApp(Tk):
         """
         ...
         """
+        self.btconnector = BluetoothConnector()
         self.btconnector.write(msg)
+        self.btconnector.disconnect()
         print("send message: ", msg)
 
 # Begin the GUI processing ---------------------------------------------------
