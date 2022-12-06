@@ -116,6 +116,13 @@ class Auto(Frame):
             command = lambda: self.controller.send_signal(3),
             font=("Arial", 25)
         ).grid(row=4, column=1, padx=10, pady=10)
+        ##
+        self.__btn_manual = Button(
+            self,
+            text = "manual",
+            command = lambda: self.controller.send_signal(12),
+            font=("Arial", 25)
+        ).grid(row=5, column=1, padx=10, pady=10)
 
     def send_takeplane(self):
         """
