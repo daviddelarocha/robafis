@@ -10,13 +10,11 @@ class Manual(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
         self.controller = controller
-        self.create_widgets()
 
-    def send_signal(direction:str) -> None:
-        """
-        ...
-        """
-        print("Direction: ", direction)
+        # send state confirmation
+        self.controller.send_signal(1)
+
+        self.create_widgets()
 
     def create_widgets(self):
         """
@@ -40,23 +38,15 @@ class Manual(Frame):
         self.__btn_avance = Button(
             self,
             text = "⬆",
-            command = lambda: self.send_signal("w"),
+            command = lambda: self.controller.send_signal(1),
             font=("Arial", 25)
         ).grid(row=2, column=1, padx=10, pady=10)
         # self.__btn_avance.pack()
         ##
-        self.__btn_left = Button(
-            self,
-            text = "⬅",
-            command = lambda: self.send_signal("a"),
-            font=("Arial", 25)
-        ).grid(row=3, column=0, padx=10, pady=10)
-        # self.__btn_left.pack()
-        ##
         self.__btn_right = Button(
             self,
             text = "➡",
-            command = lambda: self.send_signal("d"),
+            command = lambda: self.controller.send_signal(2),
             font=("Arial", 25)
         ).grid(row=3, column=2, padx=10, pady=10)
         # self.__btn_right.pack()
@@ -64,15 +54,23 @@ class Manual(Frame):
         self.__btn_reverse = Button(
             self,
             text = "⬇",
-            command = lambda: self.send_signal("r"),
+            command = lambda: self.controller.send_signal(3),
             font=("Arial", 25)
         ).grid(row=4, column=1, padx=10, pady=10)
         # self.__btn_reverse.pack()
         ##
+        self.__btn_left = Button(
+            self,
+            text = "⬅",
+            command = lambda: self.controller.send_signal(4),
+            font=("Arial", 25)
+        ).grid(row=3, column=0, padx=10, pady=10)
+        # self.__btn_left.pack()
+        ##
         self.__btn_stop = Button(
             self,
             text = "stop",
-            command = lambda: self.send_signal("s"),
+            command = lambda: self.controller.send_signal(5),
             font=("Arial", 25)
         ).grid(row=5, column=1, padx=10, pady=10)
         # self.__btn_stop.pack()
@@ -80,7 +78,7 @@ class Manual(Frame):
         self.__btn_openp = Button(
             self,
             text = "open P",
-            command = lambda: self.send_signal("p"),
+            command = lambda: self.controller.send_signal(6),
             font=("Arial", 25)
         ).grid(row=6, column=0, padx=10, pady=10)
         # self.__btn_stop.pack()
@@ -88,7 +86,7 @@ class Manual(Frame):
         self.__btn_openp = Button(
             self,
             text = "close P",
-            command = lambda: self.send_signal("c"),
+            command = lambda: self.controller.send_signal(7),
             font=("Arial", 25)
         ).grid(row=6, column=2, padx=10, pady=10)
         # self.__btn_stop.pack()

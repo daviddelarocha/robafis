@@ -2,7 +2,8 @@
 Projet: RobAFIS
 Author: David Gustavo DE LA ROCHA RAMIREZ
 """
-import sys
+from typing import Any
+
 from bluepy.btle import Peripheral
 
 MAC_ADDR = "00:1B:10:66:6D:EB"
@@ -11,7 +12,23 @@ class BluetoothConnector(Peripheral):
 	"""
 	...
 	"""
-	def __init__(self) -> None:
-		super().__init__()
+	def __init__(self):
+		"""
+		...
+		"""
+		super().__init__(MAC_ADDR, "public")
 
+		self.write_service = self.getCharacteristics()[0]
 	
+	def write(self, msg:Any) -> None:
+		"""
+		...
+		"""
+		self.write_service.write(str(msg).encode('utf-8'))
+
+	def read_confirmation(self) -> None:
+		"""
+		...
+		"""
+		# res = self.write_service.read()
+		pass

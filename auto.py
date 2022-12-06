@@ -1,6 +1,17 @@
 # This project requires PyBluez
 from tkinter import Frame, Button, Label, Listbox, Variable, SINGLE
 
+NODES_MAP:dict = {
+    "N6": 4,
+    "N8": 5,
+    "M8": 6,
+    "M10": 7,
+    "M11": 8,
+    "P1": 9,
+    "P2": 10,
+    "P3": 11
+}
+
 # Window ---------------------------------------------------
 
 class Auto(Frame):
@@ -16,13 +27,11 @@ class Auto(Frame):
         )
         Frame.__init__(self, parent)
         self.controller = controller
-        self.create_widgets()
 
-    def send_signal(direction:str) -> None:
-        """
-        ...
-        """
-        print("Direction: ", direction)
+        # send state confirmation
+        self.controller.send_signal(2)
+
+        self.create_widgets()
 
     def create_widgets(self):
         """
@@ -52,8 +61,10 @@ class Auto(Frame):
             self,
             height=10,
             listvariable=self.take_nodes,
-            selectmode=SINGLE
-        ).grid(row=1, column=1, padx=10, pady=10)
+            selectmode=SINGLE,
+            exportselection=0
+        )
+        self.__listbox_takeplane.grid(row=1, column=1, padx=10, pady=10)
         ##
         Label(
             self,
@@ -64,27 +75,47 @@ class Auto(Frame):
             self,
             height=10,
             listvariable=self.leave_nodes,
-            selectmode=SINGLE
-        ).grid(row=2, column=1, padx=10, pady=10)
+            selectmode=SINGLE,
+            exportselection=0
+        )
+        self.__listbox_leaveplane.grid(row=2, column=1, padx=10, pady=10)
 
         ##
         self.__btn_clear = Button(
             self,
             text = "clear",
-            command = lambda: self.send_signal("e"),
+            command = lambda: self.controller.send_signal(1),
             font=("Arial", 25)
         ).grid(row=3, column=0, padx=10, pady=10)
         ##
         self.__btn_launch = Button(
             self,
             text = "launch",
-            command = lambda: self.send_signal("l"),
+            command = self.launch_auto,
             font=("Arial", 25)
         ).grid(row=3, column=1, padx=10, pady=10)
         ##
         self.__btn_stop = Button(
             self,
             text = "stop",
-            command = lambda: self.send_signal("s"),
+            command = lambda: self.controller.send_signal(3),
             font=("Arial", 25)
         ).grid(row=4, column=1, padx=10, pady=10)
+
+    def launch_auto(self):
+        """
+        ...
+        """
+        for i in self.__listbox_takeplane.curselection():
+            takeplane_node = self.__listbox_takeplane.get(i)
+            break
+        for i in self.__listbox_leaveplane.curselection():
+            leaveplane_node = self.__listbox_leaveplane.get(i)
+            break
+        self.controller.send_signal(2)
+        self.controller.send_signal(
+            NODES_MAP.get(takeplane_node)
+        )
+        self.controller.send_signal(
+            NODES_MAP.get(leaveplane_node)
+        )

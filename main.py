@@ -2,9 +2,11 @@
 ...
 """
 # packages
+from typing import Any
 from tkinter import Tk, Frame, Button, Label
 
 # modules
+from conne_bt import BluetoothConnector
 from manual import Manual
 from auto import Auto
 
@@ -18,6 +20,10 @@ class Index(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
         self.controller = controller
+
+        # send state confirmation
+        self.controller.send_signal(0)
+
         label = Label(
             self,
             text="Select modality:",
@@ -49,6 +55,7 @@ class SampleApp(Tk):
     def __init__(self, *args, **kwargs):
         Tk.__init__(self, *args, **kwargs)
 
+        self.btconnector = BluetoothConnector()
         # the container is where we'll pack the current page
         self.container = Frame(self)
         self.container.pack(side="top", fill="both", expand=True)
@@ -67,6 +74,13 @@ class SampleApp(Tk):
         cls = globals()[page_name]
         self.current_frame = cls(self.container, self)
         self.current_frame.pack(fill="both", expand=True)
+
+    def send_signal(self, msg:Any) -> Any:
+        """
+        ...
+        """
+        self.btconnector.write(msg)
+        print("send message: ", msg)
 
 # Begin the GUI processing ---------------------------------------------------
 
