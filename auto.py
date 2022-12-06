@@ -53,7 +53,7 @@ class Auto(Frame):
         ).grid(row=0, column=1, padx=5, pady=5)
         # label.pack(side = "top", fill = "x", pady = 10)
 
-        ##
+        ## LIST
         Label(
             self,
             text = "take plane Node: ",
@@ -67,7 +67,14 @@ class Auto(Frame):
             exportselection=0
         )
         self.__listbox_takeplane.grid(row=1, column=1, padx=10, pady=10)
-        ##
+        ## BTN
+        self.__btn_send_takeplane = Button(
+            self,
+            text = "✓",
+            command = self.send_takeplane,
+            font=("Arial", 20)
+        ).grid(row=1, column=2, padx=10, pady=10)
+        ## LIST
         Label(
             self,
             text = "leave plane Node: ",
@@ -78,10 +85,16 @@ class Auto(Frame):
             height=10,
             listvariable=self.leave_nodes,
             selectmode=SINGLE,
-            exportselection=0
+            exportselection=0,
         )
         self.__listbox_leaveplane.grid(row=2, column=1, padx=10, pady=10)
-
+        ## BTN
+        self.__btn_send_leaveplane = Button(
+            self,
+            text = "✓",
+            command = self.send_leaveplane,
+            font=("Arial", 20)
+        ).grid(row=2, column=2, padx=10, pady=10)
         ##
         self.__btn_clear = Button(
             self,
@@ -104,22 +117,30 @@ class Auto(Frame):
             font=("Arial", 25)
         ).grid(row=4, column=1, padx=10, pady=10)
 
-    def launch_auto(self):
+    def send_takeplane(self):
         """
         ...
         """
         for i in self.__listbox_takeplane.curselection():
             takeplane_node = self.__listbox_takeplane.get(i)
             break
-        for i in self.__listbox_leaveplane.curselection():
-            leaveplane_node = self.__listbox_leaveplane.get(i)
-            break
-        self.controller.send_signal(2)
-        sleep(2000)
         self.controller.send_signal(
             NODES_MAP.get(takeplane_node)
         )
-        sleep(2000)
+
+    def send_leaveplane(self):
+        """
+        ...
+        """
+        for i in self.__listbox_leaveplane.curselection():
+            leaveplane_node = self.__listbox_leaveplane.get(i)
+            break
         self.controller.send_signal(
             NODES_MAP.get(leaveplane_node)
         )
+
+    def launch_auto(self):
+        """
+        ...
+        """
+        self.controller.send_signal(2)
