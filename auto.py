@@ -115,11 +115,11 @@ class Auto(Frame):
             leaveplane_node = self.__listbox_leaveplane.get(i)
             break
         self.controller.send_signal(2)
-        sleep(1000)
+        sleep(2000)
         self.controller.send_signal(
             NODES_MAP.get(takeplane_node)
         )
-        sleep(1000)
+        sleep(2000)
         self.controller.send_signal(
             NODES_MAP.get(leaveplane_node)
         )
